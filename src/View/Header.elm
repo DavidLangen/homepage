@@ -21,7 +21,7 @@ navbar =
         [ Region.navigation
         , alignTop
         ]
-        [ link [ headerMouseOverEffect ] { url = "#paragraph5", label = text "Passion" } ]
+        [ link [ headerMouseOverEffect ] { url = "#paragraph1", label = text "Passion" } ]
 
 paddingYAxes : number
 paddingYAxes = 10
