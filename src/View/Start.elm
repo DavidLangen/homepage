@@ -20,7 +20,7 @@ helloText m =
          age = calculateCurrentAge m
     in
     column [ width fill, Font.color (rgb255 211 224 202)]
-                                                   [ el [ centerX, Font.bold, Font.size 30 ] <| text ("Ich bin " ++ (Typewriter.view m.writer)) --"Me, Myself & I"
+                                                   [ el [ centerX, Font.bold, Font.size 30 ] <| text ("I am a " ++ (Typewriter.view m.writer)) --"Me, Myself & I"
                                                    , paragraph [padding 10]
                                                        [ text ("Hi, ich heiße David und bin " ++ String.fromInt age ++ " Jahre alt. Ich begrüße dich herzlich auf meiner Webseite.") ]
                                                    ]
@@ -33,7 +33,12 @@ portrait = Element.image [ height<| px 350
                            , Border.rounded 200
                            , clip
                            , Border.color backgroundColorLight
-                           , Border.width 7]
+                           , Border.widthEach {bottom = 0, left = 5, top = 5, right = 0}
+                           , Border.shadow { offset = ( 5, 4.5 )
+                                               , size = 5
+                                               , blur = 5
+                                               , color = backgroundColorDark
+                                               }]
                            { src = "images/portrait.jpg"
                            , description = "Portrait of me" }
 
