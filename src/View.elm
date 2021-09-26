@@ -1,6 +1,8 @@
 module View exposing (..)
 
 import Model exposing (Model, Msg)
+import Utils.TimeHelper exposing (..)
+
 import Browser
 import Element exposing (..)
 import Element.Background as Background
@@ -92,23 +94,6 @@ middle2 m =
                 para "paragraph1"
             ]
         ]
-
-myCurrentAge model =
-    let
-        day = Time.toDay model.zone model.time
-        month = Time.toMonth model.zone model.time
-        year = Time.toYear model.zone model.time
-        myAge = year - 1996
-    in
-    case month of
-        Time.Dec -> myAge
-        Time.Nov -> myAge
-        Time.Oct -> myAge
-        Time.Sep -> myAge
-        Time.Aug -> myAge
-        Time.Jul -> myAge
-        Time.Jun -> if day >= 10 then myAge else myAge - 1
-        _ -> myAge - 1
 
 
 ichPara model =
