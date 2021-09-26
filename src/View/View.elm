@@ -8,6 +8,6 @@ import View.Start exposing (middle)
 import Element exposing (..)
 import Html
 
-view : Model -> Html.Html msg
+view : Model -> Html.Html Msg
 view m = Element.layout [inFront <| header] <|
     column [ width fill, height fill] [middle m, footer ]

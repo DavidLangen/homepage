@@ -23,12 +23,27 @@ navbar =
         ]
         [ link [ headerMouseOverEffect ] { url = "#paragraph5", label = text "Passion" } ]
 
+paddingYAxes : number
+paddingYAxes = 10
+
+paddingXAxes : number
+paddingXAxes = 20
+
+borderSizeBottom : number
+borderSizeBottom = 1
+
+fontSize = 20
+
+headerHeight : number
+headerHeight = paddingYAxes * 2 + borderSizeBottom + fontSize
+
 header =
     row
-        [ Border.widthEach { bottom = 1, left = 0, right = 0, top = 0 }
+        [ Border.widthEach { bottom = borderSizeBottom, left = 0, right = 0, top = 0 }
         , width fill
-        , paddingXY 20 10
+        , paddingXY paddingYAxes paddingYAxes
         , Font.color (rgb255 105 108 115)
+        , Font.size fontSize
         , Background.color (rgb255 18 19 15)
         ,alpha 0.7
         ]

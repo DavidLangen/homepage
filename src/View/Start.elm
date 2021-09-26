@@ -2,11 +2,15 @@ module View.Start exposing (..)
 
 import Model exposing (Model, Msg)
 import Utils.TimeHelper exposing (..)
+import View.CustomColor exposing (..)
+import View.Header as Header exposing (headerHeight)
 
 import Element exposing (..)
-import Element.Background as Background
+import Element.Background as Background exposing (..)
 import Element.Border as Border
 import Element.Font as Font
+import Typewriter
+import Element.Input as Input exposing (button)
 
 import Html.Attributes as Attr exposing (class, href, style)
 
@@ -15,43 +19,53 @@ helloText m =
     let
          age = calculateCurrentAge m
     in
-    column [ width fill, spacing 10, Font.color (rgb255 211 224 202) ]
-                                                   [ el [ centerX, Font.bold ] <| text "Me, Myself & I"
-                                                   , paragraph [ width <| maximum 300 fill, centerX]
+    column [ width fill, Font.color (rgb255 211 224 202)]
+                                                   [ el [ centerX, Font.bold, Font.size 30 ] <| text ("Ich bin " ++ (Typewriter.view m.writer)) --"Me, Myself & I"
+                                                   , paragraph [padding 10]
                                                        [ text ("Hi, ich heiße David und bin " ++ String.fromInt age ++ " Jahre alt. Ich begrüße dich herzlich auf meiner Webseite.") ]
                                                    ]
 
 
 
-startImg : Element msg
-startImg = image [ height<| px 500, width fill ]
-                                                         { src = "images/David_Profilbild_Green9216x3456.png"
-                                                         , description = "Portrait of me"
-                                                         }
-middle m =
+portrait : Element msg
+portrait = Element.image [ height<| px 350
+                           , width <| px 500
+                           , Border.rounded 200
+                           , clip
+                           , Border.color backgroundColorLight
+                           , Border.width 7]
+                           { src = "images/portrait.jpg"
+                           , description = "Portrait of me" }
+
+middle : Model -> Element Msg
+middle model =
     let
-        h = Element.el [centerY, alignRight, moveLeft 200] (helloText m)
+        marginToHeader = 50
+        imageMarginRight = 350
+        textPadding = 20
     in
-    column [width fill][
-    row [width fill, height <| px 500] -- Background.gradient {angle=Basics.pi/2, steps=[(rgb255 0 0 0), (rgb255 0 0 0), (rgb255 54 54 51)]}
+    column [width fill, height fill, View.CustomColor.backgroundGradient][
+    row [width fill,  moveDown (headerHeight + marginToHeader), spacing 30]
         [
-        Element.el [inFront(h), width fill, height fill] (startImg)
-                                       ],
-    row
-        [ height fill
-        , Font.color (rgb255 255 255 255)
-        , Background.color (rgb255 0 0 0)
+            column [width fill] [ Element.el [centerX, padding textPadding] (helloText model) ]
+            ,column [width fill] [ Element.el [centerX] (portrait)] ]
+            ,contentBelow model
         ]
-        [ column [ width fill, paddingXY 300 100, spacing 60 ]
-            [
-                para "paragraph1"
-            ]
-        ]]
+
+contentBelow : Model -> Element Msg
+contentBelow model = row[ height fill
+                      , Font.color (rgb255 255 255 255)
+                      ]
+                      [ column [ width fill, paddingXY 300 100, spacing 60 ]
+                          [
+                              passionParagraph "paragraph1"
+                          ]
+                      ]
 
 
 
-para : String -> Element msg
-para id =
+passionParagraph : String -> Element msg
+passionParagraph id =
     paragraph [ spacing 10, padding 20, Border.width 1, htmlAttribute (Attr.id id) ] [ text "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." ]
 
 
