@@ -28,17 +28,11 @@ helloText m =
 
 
 portrait : Element msg
-portrait = Element.image [ height<| px 350
+portrait = Element.image (withButtonEffectAnd [ height<| px 350
                            , width <| px 500
                            , Border.rounded 200
                            , clip
-                           , Border.color backgroundColorLight
-                           , Border.widthEach {bottom = 0, left = 5, top = 5, right = 0}
-                           , Border.shadow { offset = ( 5, 4.5 )
-                                               , size = 5
-                                               , blur = 5
-                                               , color = backgroundColorDark
-                                               }]
+                           ])
                            { src = "images/portrait.jpg"
                            , description = "Portrait of me" }
 
@@ -71,6 +65,18 @@ contentBelow model = row[ height fill
 
 passionParagraph : String -> Element msg
 passionParagraph id =
-    paragraph [ spacing 10, padding 20, Border.width 1, htmlAttribute (Attr.id id) ] [ text "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." ]
+    paragraph (withButtonEffectAnd [ spacing 10, padding 20, Border.width 1, htmlAttribute (Attr.id id)]) [ text "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." ]
 
+
+buttonEffect : List (Attribute msg)
+buttonEffect = [Border.color backgroundColorLight, Border.widthEach {bottom = 0, left = 5, top = 5, right = 0}
+                               , Border.shadow { offset = ( 5, 4.5 )
+                                                 , size = 5
+                                                 , blur = 5
+                                                 , color = backgroundColorDark
+                                                }]
+
+withButtonEffectAnd : List (Attribute msg) -> List (Attribute msg)
+withButtonEffectAnd otherAttributes =
+                        List.concat [buttonEffect, otherAttributes]
 
