@@ -3,13 +3,19 @@ module Utils.TimeHelper exposing (..)
 import Model exposing (Model)
 import Time
 
-myCurrentAge : Model -> Int
-myCurrentAge model =
+bornYear : number
+bornYear = 1996
+
+bornDayInMonth : number
+bornDayInMonth = 10
+
+calculateCurrentAge : Model -> Int
+calculateCurrentAge model =
     let
         day = Time.toDay model.zone model.time
         month = Time.toMonth model.zone model.time
         year = Time.toYear model.zone model.time
-        myAge = year - 1996
+        myAge = year - bornYear
     in
     case month of
         Time.Dec -> myAge
@@ -18,5 +24,5 @@ myCurrentAge model =
         Time.Sep -> myAge
         Time.Aug -> myAge
         Time.Jul -> myAge
-        Time.Jun -> if day >= 10 then myAge else myAge - 1
+        Time.Jun -> if day >= bornDayInMonth then myAge else myAge - 1
         _ -> myAge - 1
