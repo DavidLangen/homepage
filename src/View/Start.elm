@@ -3,7 +3,7 @@ module View.Start exposing (..)
 import Model exposing (Model, Msg)
 import Utils.TimeHelper exposing (..)
 import View.CustomColor exposing (..)
-import View.Header as Header exposing (headerHeight)
+import View.Header exposing (headerHeight)
 
 import Element exposing (..)
 import Element.Background as Background exposing (..)
@@ -73,10 +73,10 @@ contentBelow model = column[width fill, centerX
                       , Font.color (rgb255 255 255 255)
                       , spacing 20
                       ]
-                      [ column [ width fill, paddingXY 300 100, spacing 60 ]
-                          [
-                              passionParagraph "paragraph1"
-                          ]
+                      [
+                              passionParagraph "paragraph1",
+                              Element.el (withButtonEffectAnd [width fill, spacing 10, padding 20, Border.width 1, centerX]) ( row [ centerX][vitaeAsTimeline])
+
                       ]
 
 
@@ -97,4 +97,5 @@ buttonEffect = [Border.color backgroundColorLight, Border.widthEach {bottom = 0,
 withButtonEffectAnd : List (Attribute msg) -> List (Attribute msg)
 withButtonEffectAnd otherAttributes =
                         List.concat [buttonEffect, otherAttributes]
+
 
