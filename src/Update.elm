@@ -4,12 +4,14 @@ import Model exposing (Model, Msg)
 import Task
 import Time
 import Typewriter
+import Animator
+import Subscriptions exposing (animator)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     Model.Tick newTime ->
-      ( { model | time = newTime }
+      ( Animator.update newTime animator { model | time = newTime, checked = model.checked |> Animator.go (Animator.millis 300) (not (Animator.current model.checked)) }
       , Cmd.none
       )
 
@@ -17,6 +19,16 @@ update msg model =
       ( { model | zone = newZone }
       , Cmd.none
       )
+
+    Model.Check newChecked ->
+                ( { model
+                    | checked =
+                        -- (6) - Here we're adding a new state to our timeline.
+                        model.checked
+                            |> Animator.go Animator.quickly newChecked
+                  }
+                , Cmd.none
+                )
 
     Model.TypewriterMsg twMsg ->
                     let

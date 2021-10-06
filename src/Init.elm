@@ -4,6 +4,8 @@ import Model exposing (Model, Msg)
 import Task
 import Time
 import Typewriter exposing (withTypeDelay)
+import Animator
+import Http
 
 init : () -> (Model, Cmd Msg)
 init _ =
@@ -15,7 +17,7 @@ init _ =
         typeWriterCmd : Cmd Typewriter.Msg
         typeWriterCmd = (Tuple.second typeWriterTuple)
     in
-  ( Model Time.utc (Time.millisToPosix 0) typeWriterModel
+  ( Model Time.utc (Time.millisToPosix 0) typeWriterModel (Animator.init True)
   , Cmd.batch
       [ Task.perform Model.AdjustTimeZone Time.here
       , Task.perform Model.Tick Time.now

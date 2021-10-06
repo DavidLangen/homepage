@@ -13,6 +13,9 @@ import Typewriter
 import Element.Input as Input exposing (button)
 
 import Html.Attributes as Attr exposing (class, href, style)
+import Animator
+import Animator.Inline
+import View.CurriculumVitae exposing (vitaeAsTimeline)
 
 helloText : Model -> Element msg
 helloText m =
@@ -20,7 +23,18 @@ helloText m =
          age = calculateCurrentAge m
     in
     column [ width fill, Font.color (rgb255 211 224 202)]
-                                                   [ el [ centerX, Font.bold, Font.size 30 ] <| text ("I am a " ++ (Typewriter.view m.writer)) --"Me, Myself & I"
+                                                   [
+                                                    row[  centerX, Font.bold, Font.size 30] [
+                                                        el [] <| text ("I am a " ++ (Typewriter.view m.writer))
+                                                        , el [ htmlAttribute (Animator.Inline.opacity m.checked <|
+                                                                                      \state ->
+                                                                                          if state then
+                                                                                              Animator.at 0
+
+                                                                                          else
+                                                                                              Animator.at 1
+                                                            )] <| text "|"
+                                                    ]
                                                    , paragraph [padding 10]
                                                        [ text ("Hi, ich heiße David und bin " ++ String.fromInt age ++ " Jahre alt. Ich begrüße dich herzlich auf meiner Webseite.") ]
                                                    ]
@@ -39,21 +53,25 @@ portrait = Element.image (withButtonEffectAnd [ height<| px 350
 middle : Model -> Element Msg
 middle model =
     let
-        marginToHeader = 50
+        marginToHeader = 0
         imageMarginRight = 350
         textPadding = 20
     in
-    column [width fill, height fill, View.CustomColor.backgroundGradient][
-    row [width fill,  moveDown (headerHeight + marginToHeader), spacing 30]
-        [
+    column [width fill, height fill, View.CustomColor.backgroundGradient, spacing 20, padding 30
+            ][
+        row [width fill, height (px View.Header.headerHeight)] [],
+        row [width fill, spacing 30]
+            [
             column [width fill] [ Element.el [centerX, padding textPadding] (helloText model) ]
-            ,column [width fill] [ Element.el [centerX] (portrait)] ]
-            ,contentBelow model
+            ,column [width fill] [ Element.el [centerX] (portrait)]
+            ]
+        , row [width fill][contentBelow model]
         ]
 
 contentBelow : Model -> Element Msg
-contentBelow model = row[ height fill
+contentBelow model = column[width fill, centerX
                       , Font.color (rgb255 255 255 255)
+                      , spacing 20
                       ]
                       [ column [ width fill, paddingXY 300 100, spacing 60 ]
                           [
