@@ -24,6 +24,6 @@ init _ =
   )
 
 initTypeWriter : (Typewriter.Model, Cmd Typewriter.Msg)
-initTypeWriter = Typewriter.withWords [ "Developer", "Software-Craftmanship", "Fitness-Lover", "Arch-Linux-Enthusiasts"]
+initTypeWriter = Typewriter.withWords [ "Developer", "Software-Craftsmen", "Fitness-Lover", "Arch-Linux-Enthusiasts"]
                 |> withTypeDelay 200
                 |> Typewriter.init
