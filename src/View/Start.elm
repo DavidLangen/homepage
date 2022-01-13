@@ -1,5 +1,6 @@
 module View.Start exposing (..)
 
+import GithubRepositories exposing (viewRepositories)
 import Model exposing (Model, Msg)
 import Utils.TimeHelper exposing (..)
 import View.CustomColor exposing (..)
@@ -75,6 +76,7 @@ contentBelow model = column[width fill, centerX
                       ]
                       [
                               passionParagraph "paragraph1",
+                              repoParagraph "repos" model,
                               Element.el (withButtonEffectAnd [width fill, spacing 10, padding 20, Border.width 1, centerX]) ( row [ centerX][vitaeAsTimeline])
 
                       ]
@@ -84,6 +86,11 @@ contentBelow model = column[width fill, centerX
 passionParagraph : String -> Element msg
 passionParagraph id =
     paragraph (withButtonEffectAnd [ spacing 10, padding 20, Border.width 1, htmlAttribute (Attr.id id)]) [ text "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." ]
+
+
+repoParagraph : String -> Model -> Element msg
+repoParagraph id model =
+    paragraph (withButtonEffectAnd [ spacing 10, padding 20, Border.width 1, htmlAttribute (Attr.id id)]) [viewRepositories model.repoStatus]
 
 
 buttonEffect : List (Attribute msg)

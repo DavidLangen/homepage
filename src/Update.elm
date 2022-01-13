@@ -1,8 +1,8 @@
 module Update exposing (..)
 
+import GithubRepositories exposing (updateRepos)
 import Model exposing (Model, Msg)
-import Task
-import Time
+import Tuple exposing (first, second)
 import Typewriter
 import Animator
 import Subscriptions exposing (animator)
@@ -30,6 +30,14 @@ update msg model =
                 , Cmd.none
                 )
 
+    Model.RepositoriesMsg repoMsg -> let
+                                        updatedRepoStatus : (GithubRepositories.RepoStatus, Cmd GithubRepositories.RepoMsg)
+                                        updatedRepoStatus = (updateRepos repoMsg model.repoStatus)
+                                     in
+                                     (
+                                          { model | repoStatus = (first updatedRepoStatus)}
+                                        , Cmd.map (\a -> Model.RepositoriesMsg a) (second updatedRepoStatus)
+                                     )
     Model.TypewriterMsg twMsg ->
                     let
                         typeWriterTuple : (Typewriter.Model, Cmd Typewriter.Msg)

@@ -1,5 +1,6 @@
 module Init exposing (..)
 
+import GithubRepositories
 import Model exposing (Model, Msg)
 import Task
 import Time
@@ -17,11 +18,12 @@ init _ =
         typeWriterCmd : Cmd Typewriter.Msg
         typeWriterCmd = (Tuple.second typeWriterTuple)
     in
-  ( Model Time.utc (Time.millisToPosix 0) typeWriterModel (Animator.init True)
+  ( Model Time.utc (Time.millisToPosix 0) typeWriterModel (Animator.init True) GithubRepositories.ReposLoading
   , Cmd.batch
       [ Task.perform Model.AdjustTimeZone Time.here
       , Task.perform Model.Tick Time.now
-      ,  Cmd.map (\ a -> Model.TypewriterMsg a) typeWriterCmd
+      ,  Cmd.map (\a -> Model.TypewriterMsg a) typeWriterCmd
+      ,  Cmd.map (\a -> Model.RepositoriesMsg a) GithubRepositories.loadRepos
       ]
   )
 
