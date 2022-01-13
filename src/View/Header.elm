@@ -5,16 +5,10 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Region as Region
-import Html
-import Html.Attributes as Attr exposing (class, href, style)
-import Html exposing (Html)
+import View.CustomIcons exposing (githubIcon)
 
 headerMouseOverEffect : Attribute msg
 headerMouseOverEffect = mouseOver [ Font.color (rgb255 0 177 0)]
-
-
-githubIcon : Element msg
-githubIcon = (Element.html (Html.i [ class "fab fa-github" ] []))
 
 navbar =
     Element.row

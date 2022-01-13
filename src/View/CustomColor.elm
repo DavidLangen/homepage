@@ -6,6 +6,9 @@ import Element.Background as Background exposing (..)
 darkgreen : Element.Color
 darkgreen = rgb255 3 23 0
 
+applegreen : Element.Color
+applegreen = rgb255 33 133 20
+
 backgroundColorDark : Element.Color
 backgroundColorDark = rgb255 20 20 20
 
