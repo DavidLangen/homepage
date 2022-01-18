@@ -7,6 +7,8 @@ import Element exposing (..)
 import Element.Border as Border
 import Http
 import Json.Decode as JD
+import Time
+import Utils.TimeHelper as TimeHelper
 import View.CustomColor as CustomColor
 import View.CustomElements as CustomElements
 import View.CustomIcons as CustomIcons exposing (arrowIcon)
@@ -58,25 +60,25 @@ repositoryParser =
         (JD.field "language" JD.string)
         (JD.field "description" (JD.maybe JD.string))
         (JD.field "size" JD.int)
-        (JD.field "updated_at" JD.string)
+        (JD.field "pushed_at" JD.string)
 
 repositoriesParser : JD.Decoder (List Repository)
 repositoriesParser = JD.list repositoryParser
 
 -- view Repositories
 
-viewRepositories : RepoStatus -> Element msg
-viewRepositories repoModel =
+viewRepositories : Time.Posix -> Time.Zone -> RepoStatus -> Element msg
+viewRepositories now timeZone repoModel =
      case repoModel of
          ReposLoaded repositories->
-             column [width fill] [wrappedRow[width fill, spacing 10] (List.map buildRepositoryCard repositories)]
+             column [width fill] [wrappedRow[width fill, spacing 10] (List.map (buildRepositoryCard now timeZone) repositories)]
          ReposLoadedFailed ->
             text  "Es ist ein Fehler beim Laden der Github Repos entstanden."
          ReposLoading ->
              text "Loading...."
 
-buildRepositoryCard : Repository -> Element msg
-buildRepositoryCard repository =
+buildRepositoryCard : Time.Posix -> Time.Zone -> Repository -> Element msg
+buildRepositoryCard now timeZone repository =
     column [padding 30, Border.width 1, Border.rounded 100, width <| px 500] [
             column [centerX, width fill] [
                 row [centerX, width fill, spacingXY 80 0] [
@@ -93,7 +95,7 @@ buildRepositoryCard repository =
             ,column [paddingXY 0 10, spacing 50, centerX] [
                     row [spacingXY 10 0] [
                             el [Font.color CustomColor.applegreen] (arrowIcon)
-                            ,el [width fill] (text ("Last updated: " ++ repository.lastPush))
+                            ,el [width fill] (text ("Updated: " ++ TimeHelper.formatLastPush now timeZone repository.lastPush))
                         ]
                     ,el [Font.italic, height<| px 50] (descriptionOrDefaultText repository.description)
                     ,el [centerX, Border.rounded 10, padding 10, Background.color CustomColor.applegreen] (Element.newTabLink [] {url=repository.url, label=(text "Code")})

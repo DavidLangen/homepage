@@ -21,7 +21,7 @@ import View.CurriculumVitae exposing (vitaeAsTimeline)
 helloText : Model -> Element msg
 helloText m =
     let
-         age = calculateCurrentAge m
+         age = calculateCurrentAge m.time m.zone
     in
     column [ width fill, Font.color (rgb255 211 224 202)]
                                                    [
@@ -90,7 +90,7 @@ passionParagraph id =
 
 repoParagraph : String -> Model -> Element msg
 repoParagraph id model =
-    paragraph (withButtonEffectAnd [ spacing 10, padding 20, Border.width 1, htmlAttribute (Attr.id id)]) [viewRepositories model.repoStatus]
+    paragraph (withButtonEffectAnd [ spacing 10, padding 20, Border.width 1, htmlAttribute (Attr.id id)]) [viewRepositories model.time model.zone model.repoStatus]
 
 
 buttonEffect : List (Attribute msg)
