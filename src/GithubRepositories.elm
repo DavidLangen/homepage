@@ -8,6 +8,7 @@ import Element.Border as Border
 import Http
 import Json.Decode as JD
 import View.CustomColor as CustomColor
+import View.CustomElements as CustomElements
 import View.CustomIcons as CustomIcons exposing (arrowIcon)
 
 -- Model
@@ -84,7 +85,9 @@ buildRepositoryCard repository =
                 ]
             ]
             ,column [paddingXY 0 10, spacing 5, centerX] [
-                    el [centerX] (image [width <|px 250, height <|px 250, Border.rounded 100, clip] {src = "images/github_dark.png", description = "Picture"})
+                    el [centerX] (
+                        CustomElements.imageWithDefault 250 250 ("images/repoimages/" ++ repository.name ++ ".png") "images/github_dark.png"
+                    )
                     ,el [Font.size 15, centerX] (text ("Size: " ++ String.fromInt repository.size ++ " Kb"))
             ]
             ,column [paddingXY 0 10, spacing 50, centerX] [
