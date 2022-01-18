@@ -79,25 +79,22 @@ viewRepositories now timeZone repoModel =
 
 buildRepositoryCard : Time.Posix -> Time.Zone -> Repository -> Element msg
 buildRepositoryCard now timeZone repository =
-    column [padding 30, Border.width 1, Border.rounded 100, width <| px 500] [
+    column [padding 30, Border.width 1, Border.rounded 100, width <| px 500, spacing 10] [
             column [centerX, width fill] [
                 row [centerX, width fill, spacingXY 80 0] [
                     el [moveRight 10] (languageWordToLogo repository.language)
                     ,el [centerX, width fill] (text repository.name)
                 ]
             ]
-            ,column [paddingXY 0 10, spacing 5, centerX] [
-                    el [centerX] (
-                        CustomElements.imageWithDefault 250 250 ("images/repoimages/" ++ repository.name ++ ".png") "images/github_dark.png"
-                    )
-                    ,el [Font.size 15, centerX] (text ("Size: " ++ String.fromInt repository.size ++ " Kb"))
-            ]
-            ,column [paddingXY 0 10, spacing 50, centerX] [
-                    row [spacingXY 10 0] [
-                            el [Font.color CustomColor.applegreen] (arrowIcon)
-                            ,el [width fill] (text ("Updated: " ++ TimeHelper.formatLastPush now timeZone repository.lastPush))
-                        ]
-                    ,el [Font.italic, height<| px 50] (descriptionOrDefaultText repository.description)
+            ,el [centerX]
+                        (CustomElements.imageWithDefault 250 250 ("images/repoimages/" ++ repository.name ++ ".png") "images/github_dark.png")
+            ,el [Font.size 15, centerX] (text ("Size: " ++ String.fromInt repository.size ++ " Kb"))
+            ,row [spacingXY 10 0, centerX, paddingXY 0 10] [
+                 el [Font.color CustomColor.applegreen] (arrowIcon)
+                 ,el [width fill] (text ("Updated: " ++ TimeHelper.formatLastPush now timeZone repository.lastPush))
+             ]
+            ,column [paddingXY 0 10, spacing 20, centerX] [
+                    el [Font.center, Font.italic, height<| px 50, Font.size 18] (descriptionOrDefaultText repository.description)
                     ,el [centerX, Border.rounded 10, padding 10, Background.color CustomColor.applegreen] (Element.newTabLink [] {url=repository.url, label=(text "Code")})
                 ]
             ]
